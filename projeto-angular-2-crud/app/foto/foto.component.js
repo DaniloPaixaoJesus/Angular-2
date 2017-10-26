@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var FotoComponent = /** @class */ (function () {
     function FotoComponent() {
+        this.titulo = '';
+        this.url = '';
+        this.descricao = '';
     }
     __decorate([
         core_1.Input(),

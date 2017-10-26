@@ -13,6 +13,18 @@ var core_1 = require("@angular/core");
 var PainelComponent = /** @class */ (function () {
     function PainelComponent() {
     }
+    PainelComponent.prototype.ngOnInit = function () {
+        //exibe apenas os 7 primeiros caracteres
+        this.titulo = this.titulo.length > 7 ?
+            this.titulo.substr(0, 7) + '...' :
+            this.titulo;
+        /**
+         
+        this.titulo = this.titulo.length > 7
+            ? `${this.titulo.substr(0, 7)}...`
+            : this.titulo;
+        */
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", String)

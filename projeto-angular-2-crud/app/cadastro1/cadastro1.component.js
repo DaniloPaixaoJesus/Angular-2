@@ -12,17 +12,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 var foto_component_1 = require("../foto/foto.component");
-var CadastroComponent = /** @class */ (function () {
-    function CadastroComponent(http) {
-        // tipando a propriedade como Object
+var forms_1 = require("@angular/forms");
+var CadastroComponent1 = /** @class */ (function () {
+    function CadastroComponent1(http, fb) {
         this.foto = new foto_component_1.FotoComponent();
         this.http = http;
+        this.meuForm = fb.group({
+            titulo: ['', forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(4)])],
+            url: ['', forms_1.Validators.required],
+            descricao: [''],
+        });
     }
     /**
         model-driven form validation
 
      */
-    CadastroComponent.prototype.cadastrar = function (event) {
+    CadastroComponent1.prototype.cadastrar = function (event) {
         var _this = this;
         //evento é encapsulado e passado para o angular cancelar a submissao do formulário recarregando a pagina
         event.preventDefault();
@@ -37,15 +42,15 @@ var CadastroComponent = /** @class */ (function () {
             console.log('Foto salva com sucesso');
         }, function (erro) { return console.log(erro); });
     };
-    CadastroComponent = __decorate([
+    CadastroComponent1 = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'cadastro',
-            templateUrl: './cadastro.component.html'
+            selector: 'cadastro1',
+            templateUrl: './cadastro1.component.html'
         }),
-        __metadata("design:paramtypes", [http_1.Http])
-    ], CadastroComponent);
-    return CadastroComponent;
+        __metadata("design:paramtypes", [http_1.Http, forms_1.FormBuilder])
+    ], CadastroComponent1);
+    return CadastroComponent1;
 }());
-exports.CadastroComponent = CadastroComponent;
-//# sourceMappingURL=cadastro.component.js.map
+exports.CadastroComponent1 = CadastroComponent1;
+//# sourceMappingURL=cadastro1.component.js.map
