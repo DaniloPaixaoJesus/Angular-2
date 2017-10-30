@@ -16,6 +16,9 @@ var painel_module_1 = require("./painel/painel.module");
 var cadastro_component_1 = require("./cadastro/cadastro.component");
 var cadastro1_component_1 = require("./cadastro1/cadastro1.component");
 var listagem_component_1 = require("./listagem/listagem.component");
+var pessoa_module_1 = require("./pessoa/pessoa.module");
+var pessoa_listagem_component_1 = require("./pessoa/listagem/pessoa.listagem.component");
+var pessoa_cadastro_component_1 = require("./pessoa/cadastro/pessoa.cadastro.component");
 var app_routes_1 = require("./app.routes");
 //model-driven form validation ReactiveFormsModule 
 var forms_1 = require("@angular/forms");
@@ -24,8 +27,21 @@ var AppModule = /** @class */ (function () {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, foto_module_1.FotoModule, http_1.HttpModule, painel_module_1.PainelModule, app_routes_1.routing, forms_1.FormsModule, forms_1.ReactiveFormsModule],
-            declarations: [app_component_1.AppComponent, cadastro_component_1.CadastroComponent, cadastro1_component_1.CadastroComponent1, listagem_component_1.ListagemComponent],
+            imports: [platform_browser_1.BrowserModule,
+                foto_module_1.FotoModule,
+                http_1.HttpModule,
+                painel_module_1.PainelModule,
+                app_routes_1.routing,
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule,
+                pessoa_module_1.PessoaModule],
+            declarations: [app_component_1.AppComponent,
+                cadastro_component_1.CadastroComponent,
+                cadastro1_component_1.CadastroComponent1,
+                listagem_component_1.ListagemComponent,
+                pessoa_listagem_component_1.PessoaListagemComponent,
+                pessoa_cadastro_component_1.PessoaCadastroComponent
+            ],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
