@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import {Http, Headers} from '@angular/http';
-import {FotoComponent} from '../foto/foto.component';
+import { Component } from '@angular/core';
+import { FotoComponent } from '../foto/foto.component';
+import { FotoService } from '../foto/foto.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     moduleId: module.id,
@@ -8,33 +9,43 @@ import {FotoComponent} from '../foto/foto.component';
     templateUrl: './cadastro.component.html'
 })
 export class CadastroComponent{
-    // tipando a propriedade como Object
     foto: FotoComponent = new FotoComponent();
-    http: Http;
+    service: FotoService;
+    route: ActivatedRoute;
+    router: Router;
+    mensagem: string = '';
 
-    constructor(http: Http){
-        this.http = http;
+
+    constructor(service: FotoService, route: ActivatedRoute, router: Router){
+        this.service = service;
+        this.route = route;
+        this.router = router;
+        //this.route.params.subscribe(params => console.log(params['id']));
+        this.route.params.subscribe(params => {
+                let id = params['id'];
+                if(id){
+                    this.service.buscaPorId(id)
+                        .subscribe(
+                            foto => this.foto = foto,
+                            erro => console.log(erro));    
+                }            
+            });
     }
 
-    /**
-        model-driven form validation
-
-     */
-
-    cadastrar(event){        
-        //evento é encapsulado e passado para o angular cancelar a submissao do formulário recarregando a pagina
+    cadastrar(event){
         event.preventDefault();
         console.log(this.foto);
-        // cria uma instância de Headers
-        let headers = new Headers();
-        // Adiciona o tipo de conteúdo application/json 
-        headers.append('Content-Type', 'application/json');
-
-        this.http.post('v1/fotos', JSON.stringify(this.foto), { headers: headers })
-                        .subscribe(() => {
-                            this.foto = new FotoComponent();
-                            console.log('Foto salva com sucesso');
-                        }, erro =>  console.log(erro));
+    
+        this.service
+            .cadastra(this.foto)
+            .subscribe(res => {
+                this.mensagem = res.mensagem;
+                this.foto = new FotoComponent();
+                if(!res.inclusao) this.router.navigate(['']);
+            }, erro => {
+                console.log(erro);
+                this.mensagem = 'Não foi possível savar a foto';
+            });
     }
 
 }

@@ -1,6 +1,8 @@
 <div class="container">
-    <h1>Cadastro template-driven form</h1>
+    <h1>New Person [template-driven form]</h1>
     <!--  template-driven form  validation -->
+    <p *ngIf="mensagem.length" class="alert alert-info">{{mensagem}}</p>
+    
     <form #meuForm="ngForm" (submit)="cadastrar($event)" class="row">
         <div class="col-md-6">
             <div class="form-group">

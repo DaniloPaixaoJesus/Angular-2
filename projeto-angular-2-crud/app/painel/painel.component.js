@@ -19,7 +19,6 @@ var PainelComponent = /** @class */ (function () {
             this.titulo.substr(0, 7) + '...' :
             this.titulo;
         /**
-         
         this.titulo = this.titulo.length > 7
             ? `${this.titulo.substr(0, 7)}...`
             : this.titulo;
@@ -33,7 +32,9 @@ var PainelComponent = /** @class */ (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'painel',
-            templateUrl: './painel.component.html'
+            templateUrl: './painel.component.html',
+            styleUrls: ['./painel.component.css'],
+            encapsulation: core_1.ViewEncapsulation.Emulated
         })
     ], PainelComponent);
     return PainelComponent;

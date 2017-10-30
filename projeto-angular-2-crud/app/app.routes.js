@@ -6,6 +6,7 @@ var cadastro_component_1 = require("./cadastro/cadastro.component");
 var cadastro1_component_1 = require("./cadastro1/cadastro1.component");
 var appRoutes = [
     { path: '', component: listagem_component_1.ListagemComponent },
+    { path: 'cadastro/:id', component: cadastro_component_1.CadastroComponent },
     { path: 'cadastro', component: cadastro_component_1.CadastroComponent },
     { path: 'cadastro1', component: cadastro1_component_1.CadastroComponent1 },
     { path: '**', redirectTo: '' }

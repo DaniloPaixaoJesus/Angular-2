@@ -10,32 +10,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
 var foto_component_1 = require("../foto/foto.component");
+var foto_service_1 = require("../foto/foto.service");
+var router_1 = require("@angular/router");
 var CadastroComponent = /** @class */ (function () {
-    function CadastroComponent(http) {
-        // tipando a propriedade como Object
+    function CadastroComponent(service, route, router) {
+        var _this = this;
         this.foto = new foto_component_1.FotoComponent();
-        this.http = http;
+        this.mensagem = '';
+        this.service = service;
+        this.route = route;
+        this.router = router;
+        //this.route.params.subscribe(params => console.log(params['id']));
+        this.route.params.subscribe(function (params) {
+            var id = params['id'];
+            if (id) {
+                _this.service.buscaPorId(id)
+                    .subscribe(function (foto) { return _this.foto = foto; }, function (erro) { return console.log(erro); });
+            }
+        });
     }
-    /**
-        model-driven form validation
-
-     */
     CadastroComponent.prototype.cadastrar = function (event) {
         var _this = this;
-        //evento é encapsulado e passado para o angular cancelar a submissao do formulário recarregando a pagina
         event.preventDefault();
         console.log(this.foto);
-        // cria uma instância de Headers
-        var headers = new http_1.Headers();
-        // Adiciona o tipo de conteúdo application/json 
-        headers.append('Content-Type', 'application/json');
-        this.http.post('v1/fotos', JSON.stringify(this.foto), { headers: headers })
-            .subscribe(function () {
+        this.service
+            .cadastra(this.foto)
+            .subscribe(function (res) {
+            _this.mensagem = res.mensagem;
             _this.foto = new foto_component_1.FotoComponent();
-            console.log('Foto salva com sucesso');
-        }, function (erro) { return console.log(erro); });
+            if (!res.inclusao)
+                _this.router.navigate(['']);
+        }, function (erro) {
+            console.log(erro);
+            _this.mensagem = 'Não foi possível savar a foto';
+        });
     };
     CadastroComponent = __decorate([
         core_1.Component({
@@ -43,7 +52,7 @@ var CadastroComponent = /** @class */ (function () {
             selector: 'cadastro',
             templateUrl: './cadastro.component.html'
         }),
-        __metadata("design:paramtypes", [http_1.Http])
+        __metadata("design:paramtypes", [foto_service_1.FotoService, router_1.ActivatedRoute, router_1.Router])
     ], CadastroComponent);
     return CadastroComponent;
 }());
