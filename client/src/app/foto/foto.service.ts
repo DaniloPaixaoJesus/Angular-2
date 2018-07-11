@@ -16,14 +16,12 @@ export class FotoService {
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
     }
-    /*
-    lista(): Observable<FotoComponent[]> {
-
-        return this.http.get(this.url)
-            .map(res => res.json());
+    
+    lista(){
+        return this.http.get(this.url);
     }
 
-    cadastra1(foto: FotoComponent): Observable<Response> {
+    /*cadastra1(foto: FotoComponent): Observable<Response> {
 
         return this.http.post(this.url, JSON.stringify(foto), 
                 { headers: this.headers }); 
@@ -51,8 +49,8 @@ export class FotoService {
         return this.http
             .get(this.url + '/' + id)
             .map(res => res.json());
-    }
-    */
+    }*/
+
 }
 //Observable<Array<FotoComponent>>
 //Observable<FotoComponent[]>

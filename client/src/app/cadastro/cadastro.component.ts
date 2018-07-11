@@ -31,6 +31,10 @@ export class CadastroComponent{
             });
     }
 
+    voltar() {
+        window.history.back();
+    }
+
     cadastrar(event){
         event.preventDefault();
         console.log(this.foto);

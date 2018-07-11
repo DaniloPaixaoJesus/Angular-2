@@ -18,16 +18,58 @@ import { routing } from './app.routes';
 //model-driven form validation ReactiveFormsModule 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Material UI
+import {
+  MatToolbarModule,
+  MatCardModule,
+  MatInputModule,
+  MatIconModule,
+  MatButtonModule,
+  MatListModule,
+  MatDividerModule,
+  MatChipsModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatGridListModule,
+  MatExpansionModule,
+  MatAutocompleteModule,
+  MatSelectModule,
+  MatMenuModule,
+  MatStepperModule,
+  MatSidenavModule,
+  MatBadgeModule
+} from '@angular/material';
 
 @NgModule({
   imports:      [ BrowserModule, 
+                  BrowserAnimationsModule,
                   FotoModule, 
                   HttpClientModule, 
                   PainelModule, 
                   routing, 
                   FormsModule, 
                   ReactiveFormsModule,
-                  PessoaModule],
+                  PessoaModule,
+                  MatToolbarModule,
+                  MatCardModule,
+                  MatInputModule,
+                  MatIconModule,
+                  MatButtonModule,
+                  MatListModule,
+                  MatDividerModule,
+                  MatChipsModule,
+                  MatProgressBarModule,
+                  MatProgressSpinnerModule,
+                  MatGridListModule,
+                  MatExpansionModule,
+                  MatAutocompleteModule,
+                  MatSelectModule,
+                  MatMenuModule,
+                  MatStepperModule,
+                  MatSidenavModule,
+                  MatBadgeModule],
   declarations: [ AppComponent, 
                   CadastroComponent,                   
                   ListagemComponent,

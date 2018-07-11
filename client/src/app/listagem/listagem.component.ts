@@ -14,14 +14,18 @@ export class ListagemComponent {
 
     constructor(service:FotoService) {
         this.service = service;
-        /*service.lista()
+        service.lista()
             .subscribe(
-                fotos=>{
+                (fotos:any)=>{
                     console.log('fotos consultadas com sucesso');
                     this.fotos = fotos;
                 },
                 erro=> console.error(erro)
-            );*/
+            );
+    }
+
+    voltar() {
+        window.history.back();
     }
 
     remove(foto: FotoComponent): void {

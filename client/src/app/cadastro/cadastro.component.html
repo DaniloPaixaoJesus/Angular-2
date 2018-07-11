@@ -1,22 +1,11 @@
-<div class="container">
+
+<!--<div class="container">
     <h1>New Person [template-driven form]</h1>
-    <!--  template-driven form  validation -->
     <p *ngIf="mensagem.length" class="alert alert-info">{{mensagem}}</p>
-    
     <form #meuForm="ngForm" (submit)="cadastrar($event)" class="row">
         <div class="col-md-6">
             <div class="form-group">
                 <label>Título</label>
-                <!--
-                (input) = binding from view to controller (component)
-                <input  (input)="foto.titulo = $event.target.value"
-                        [value]="foto.titulo" class="form-control"  autocomplete="off">    
-                [value] = binding from controller to view
-                -->
-                <!-- 
-                    [(ngModel)] = two way databinding 
-                    attribute "name" have to be declared
-                -->
                 <input 
                     required
                     #titulo = "ngModel" 
@@ -29,8 +18,6 @@
             </div>
             <div class="form-group">
                 <label>URL</label>
-                <!--<input  (input)="foto.url = $event.target.value"
-                        [value]="foto.url" class="form-control"  autocomplete="off">-->
             <input name="url" [(ngModel)]="foto.url" class="form-control"  autocomplete="off">
             </div>
             <div class="form-group">
@@ -46,4 +33,48 @@
             <hr>
         </div>
     </form>
-</div>
+</div>-->
+
+
+<div>
+    <mat-card>
+      <mat-card-title>
+        <button mat-icon-button color="accent" (click)="voltar()"><mat-icon>keyboard_backspace</mat-icon> </button>
+        Cadastro
+      </mat-card-title>
+      
+      <mat-card-content>
+        <form #meuForm="ngForm" (submit)="cadastrar($event)" class="row">
+            
+            <input type="text" matInput
+                required
+                placeholder="Titulo"
+                #titulo = "ngModel" 
+                name="titulo" 
+                [(ngModel)]="foto.titulo" 
+                autocomplete="off">
+            <span *ngIf="titulo.invalid" class="form-control alert-danger">
+                Título obrigatório
+            </span> 
+          <br/>
+          
+          <mat-form-field color="accent" class="full-width-input">
+            <input type="text"  matInput placeholder="URL" name="url" [(ngModel)]="foto.url" autocomplete="off">
+          </mat-form-field>
+          <br/>
+          <mat-form-field color="accent" class="full-width-input">
+            <input type="text" matInput placeholder="Descricao" name="descricao" [(ngModel)]="foto.descricao" autocomplete="off">
+          </mat-form-field>
+            
+        </form>  
+      </mat-card-content>
+  
+      <mat-card-actions>
+        <div fxLayout="row" fxLayoutAlign="end">
+          <button mat-fab color="primary" [disabled]="meuForm.form.invalid">
+            <mat-icon>done_outline</mat-icon>
+        </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
