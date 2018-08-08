@@ -1,5 +1,5 @@
-# Basic CRUD Web Application with Angular 2
-Simple web application with a "Person" CRUD, Picture's Person, and Neighborhood.
+# Basic CRUD Web Application with Angular Framework
+Simple web application photo management 
 * Angular
 * Reflect-metadata
 * RXJS
