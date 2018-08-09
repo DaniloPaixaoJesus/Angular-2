@@ -4,5 +4,6 @@ Simple web application photo management
 * Reflect-metadata
 * RXJS
 * SystemJS
-* Angular2 in memory web api
+* Angular 6 in memory web api
+* Angular CLI
 * Bootstrap
