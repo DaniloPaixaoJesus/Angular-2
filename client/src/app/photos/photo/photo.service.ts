@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { Photo } from "./photo";
 
-const API = 'http://localhost:3000';
+const API = 'https://album-photo-nodejs.herokuapp.com';
 
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
