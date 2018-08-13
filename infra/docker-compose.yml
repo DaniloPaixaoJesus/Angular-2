@@ -1,0 +1,131 @@
+version: '3'
+services:
+  commute-mysql-db:
+    image: mysql:5.6
+    container_name: commute-mysql-db
+    ports:
+     - "3306:3306"
+    volumes:
+     - ./database/setup:/docker-entrypoint-initdb.d
+    environment:
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+     - MYSQL_DATABASE=vw-ofertas
+     - MYSQL_USER=vw-ofertas
+     - MYSQL_PASSWORD=vw-ofertas
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+     - "1080:1080"
+  commute-postgres-db:
+    image: commute-postgres-db
+    container_name: commute-postgres-db
+    environment:
+      POSTGRES_DB: 'commutedb'
+      POSTGRES_PASSWORD: 'commutedb'
+      POSTGRES_USER: 'commutedb'
+    ports:
+      - 5432:5432
+  #  volumes:
+  #    - /var/lib/postgresql/data
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: rabbitmq.Dockerfile
+    environment:
+        RABBITMQ_DEFAULT_USER: "commute"
+        RABBITMQ_DEFAULT_PASS: "commute"
+    ports:
+     - 15672:15672
+     - 5672:5672
+  java-commute-api:
+    image: tomcat:7.0
+    container_name: java-commute-api
+    ports:
+     - "8081:8081"
+     - "8000:8000"
+    volumes:
+     - ./web:/usr/local/tomcat/webapps/ROOT
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+    command: catalina.sh jpda run
+    environment:
+     JAVA_OPTS: >
+       -Ddatabase.jdbcUrl=jdbc:mysql://mysql/vw-ofertas
+       -Ddatabase.credential.user=vw-ofertas
+       -Ddatabase.credential.password=vw-ofertas
+       -Dmail.smtp_host=mailcatcher
+       -Dmail.smtp_port=1025
+       -Dsite.url=http://docker:8080
+    dns:
+      - 8.8.8.8
+      - 9.9.9.9
+  node-commute-api:
+    image: "node:8"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      PORT: 8080
+      NODE_ENV: "production"
+      MAILER_HOST: "smtp.gmail.com"
+      MAILER_USER: "contato.danilo.paixao@gmail.com"
+      MAILER_PASS: "$$password$$"
+      MAILER_PORT: 465
+      MAILER_SECURE: "true"
+      DASHBOARD: "http://nginx:80"
+      DB_HOSTNAME: commutedb
+      DB_USERNAME: 'commutedb'
+      DB_PASSWORD: 'commutedb'
+      DB_NAME: 'commutedb'
+      RABBITMQ_URL: "amqp://commute:commute@rabbitmq"
+      # command: ["./node_modules/.bin/pm2-runtime", "server/index.js", "--watch"]
+    ports:
+      - 8080:8080
+    #volumes:
+    #    - ./server:/home/node/app
+    depends_on: 
+      - commute-postgres-db
+      - rabbitmq
+    nginx:
+        build:
+            dockerfile: ./docker/nginx.dockerfile
+            context: .
+        image: douglasq/nginx
+        container_name: nginx
+        ports:
+            - "80:80"
+        networks: 
+            - production-network
+        depends_on: 
+            - "node1"
+            - "node2"
+
+    mongodb:
+        image: mongo
+        networks: 
+            - production-network
+
+    node1:
+        build:
+            dockerfile: ./docker/alura-books.dockerfile
+            context: .
+        container_name: node1
+        ports:
+            - "3000"
+        networks: 
+            - production-network
+
+    node2:
+        build:
+            dockerfile: ./docker/alura-books.dockerfile
+            context: .
+        container_name: node2
+        ports:
+            - "3000"
+        networks: 
+            - production-network
+  networks: 
+    production-network:
+        driver: bridge
+  
