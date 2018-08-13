@@ -1,0 +1,40 @@
+version: '2'
+services:
+  web:
+    image: tomcat:7.0
+    ports:
+     - "8080:8080"
+     - "8000:8000"
+    volumes:
+     - ./web:/usr/local/tomcat/webapps/ROOT
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+    command: catalina.sh jpda run
+    environment:
+     JAVA_OPTS: >
+       -Ddatabase.jdbcUrl=jdbc:mysql://mysql/vw-ofertas
+       -Ddatabase.credential.user=vw-ofertas
+       -Ddatabase.credential.password=vw-ofertas
+       -Dmail.smtp_host=mailcatcher
+       -Dmail.smtp_port=1025
+       -Dsite.url=http://docker:8080
+    dns:
+      - 8.8.8.8
+      - 9.9.9.9
+  mysql:
+    image: mysql:5.6
+    ports:
+     - "3306:3306"
+    volumes:
+     - ./database/setup:/docker-entrypoint-initdb.d
+    environment:
+     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+     - MYSQL_DATABASE=vw-ofertas
+     - MYSQL_USER=vw-ofertas
+     - MYSQL_PASSWORD=vw-ofertas
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+     - "1080:1080"
